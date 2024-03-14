@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Selects</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <select id="firstSelect"></select>
+
+    <select id="secondSelect"></select>
+
+    <script>
+      $(document).ready(function () {
+        function populateFirstSelect() {
+          var firstSelectOptions = [
+            { id: 1, name: "Option 1" },
+            { id: 2, name: "Option 2" },
+          ];
+
+          $.each(firstSelectOptions, function (index, option) {
+            $("#firstSelect").append(
+              $("<option>", {
+                value: option.id,
+                text: option.name,
+              })
+            );
+          });
+        }
+
+        function populateSecondSelect(selectedValue) {
+          $("#secondSelect").empty();
+
+          var secondSelectOptions = {
+            1: ["Suboption A", "Suboption B", "Suboption C"],
+            2: ["Suboption X", "Suboption Y", "Suboption Z"],
+          };
+
+          var options = secondSelectOptions[selectedValue];
+          $.each(options, function (index, option) {
+            $("#secondSelect").append(
+              $("<option>", {
+                value: option,
+                text: option,
+              })
+            );
+          });
+        }
+
+        populateFirstSelect();
+
+        $("#firstSelect").on("change", function () {
+          var selectedValue = $(this).val();
+          populateSecondSelect(selectedValue);
+        });
+
+        populateSecondSelect($("#firstSelect").val());
+      });
+    </script>
+  </body>
+</html>

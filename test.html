@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      arr [{ Role-123312-1234-34543-56345:"role1",
+      Name-123312-1234-34543-56345:"name1", }, {
+      Role-21ld23-23dc-4fr42-f3423:"role2",
+      Name-21ld23-23dc-4fr42-f3423:"name2", }, {
+      Role-2xef4s-3wxe-3dc3c-w2xe3:"role3",
+      Name-2xef4s-3wxe-3dc3c-w2xe3:"name3", }]
+    </div>
+    <div>
+      objs { Role-123312-1234-34543-56345:"role1",
+      Name-123312-1234-34543-56345:"name1",
+      Role-21ld23-23dc-4fr42-f3423:"role2",
+      Name-21ld23-23dc-4fr42-f3423:"name2",
+      Role-2xef4s-3wxe-3dc3c-w2xe3:"role3",
+      Name-2xef4s-3wxe-3dc3c-w2xe3:"name3", }
+    </div>
+
+    <script>
+      function groupObjectByKeyPrefix(originalObject) {
+        const arrayOfObjects = [];
+        let tempObject = {};
+
+        for (const key in originalObject) {
+          const prefix = key.substring(0, key.indexOf("-"));
+          const idIndex = key.lastIndexOf("-");
+          const id = key.substring(idIndex + 1);
+          const value = originalObject[key];
+
+          if (prefix === "Role") {
+            if (Object.keys(tempObject).length > 0) {
+              arrayOfObjects.push(tempObject);
+              tempObject = {};
+            }
+            tempObject["Role"] = value;
+          } else if (prefix === "Name") {
+            tempObject["Name"] = value;
+          }
+        }
+
+        if (Object.keys(tempObject).length > 0) {
+          arrayOfObjects.push(tempObject);
+        }
+
+        return arrayOfObjects;
+      }
+
+      const originalObject = {
+        "Role-123312-1234-34543-56345": "role1",
+        "Name-123312-1234-34543-56345": "name1",
+        "Role-21ld23-23dc-4fr42-f3423": "role2",
+        "Name-21ld23-23dc-4fr42-f3423": "name2",
+        "Role-2xef4s-3wxe-3dc3c-w2xe3": "role3",
+        "Name-2xef4s-3wxe-3dc3c-w2xe3": "name3",
+      };
+
+      const groupedObjects = groupObjectByKeyPrefix(originalObject);
+      console.log(groupedObjects);
+    </script>
+  </body>
+</html>
